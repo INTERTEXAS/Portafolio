@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Outer Hexagon representing structural architecture -->
+  <polygon 
+    points="16,2 29,9 29,23 16,30 3,23 3,9" 
+    fill="#090d16" 
+    stroke="#10b981" 
+    stroke-width="2" 
+    stroke-linejoin="round"
+  />
+  
+  <!-- Glowing central terminal prompt symbol (>) in accent amber -->
+  <path 
+    d="M11 11L16 16L11 21" 
+    stroke="#f59e0b" 
+    stroke-width="2.5" 
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+  />
+  
+  <!-- Terminal cursor (_) in structural green -->
+  <line 
+    x1="17" 
+    y1="21" 
+    x2="22" 
+    y2="21" 
+    stroke="#10b981" 
+    stroke-width="2.5" 
+    stroke-linecap="round"
+  />
+</svg>
