@@ -105,3 +105,30 @@ npm run dev
 npm run build
 ```
 *El compilado optimizado se generará en la carpeta `dist/`.*
+
+---
+
+## ☁️ Despliegue en Vercel
+
+Este proyecto está optimizado para ser desplegado en **Vercel** de manera directa en pocos pasos:
+
+### Opción A: Integración Continua (Recomendada)
+1. Ve al panel de control de [Vercel](https://vercel.com).
+2. Haz clic en **New Project** y selecciona el repositorio de GitHub de este proyecto.
+3. Asegúrate de configurar los siguientes parámetros de compilación (Vercel los detecta automáticamente al identificar Vite):
+   * **Framework Preset:** `Vite`
+   * **Build Command:** `npm run build`
+   * **Output Directory:** `dist`
+4. Haz clic en **Deploy**. Cada vez que hagas `push` a la rama `main`, Vercel actualizará tu sitio automáticamente.
+
+### Opción B: Despliegue desde la Consola (Vercel CLI)
+Si prefieres desplegar directamente desde tu terminal local:
+```bash
+# Instalar CLI de vercel si no lo tienes
+npm install -g vercel
+
+# Ejecutar el despliegue
+vercel
+```
+Sigue las instrucciones interactivas de la terminal para vincular y publicar tu portafolio en segundos.
+
