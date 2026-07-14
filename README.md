@@ -9,13 +9,13 @@ Portafolio profesional de desarrollo web para **Miguel Lagunes**, diseñado con 
 
 ---
 
-## 📸 Previsualización de la Interfaz
+## Previsualización de la Interfaz
 
 ![Command Center UI Preview](./src/assets/portfolio_preview.jpg)
 
 ---
 
-## 📈 Arquitectura del Sistema y Flujo de Interacciones
+## Arquitectura del Sistema y Flujo de Interacciones
 
 El portafolio opera como una aplicación de una sola página (SPA) reactiva con un ciclo de vida estructurado en estados de consola. A continuación se ilustra el flujo lógico de interacción del sistema:
 
@@ -45,7 +45,7 @@ graph TD
 
 ---
 
-## 🚀 Características Clave
+## Características Clave
 
 * **Secuencia de Booteo Interactiva:** El portafolio simula la inicialización de módulos de hardware, bases de datos PostgreSQL y workers de Python antes de dar acceso a la consola.
 * **Radar Tecnológico HUD:** Representación interactiva del stack tecnológico (React, Python, PostgreSQL, Git, Optimización de Hardware) simulando una pantalla de radar militar con círculos concéntricos de nivel de dominio.
@@ -55,7 +55,7 @@ graph TD
 
 ---
 
-## 📂 Estructura de Directorios
+## Estructura de Directorios
 
 ```bash
 ├── public/
@@ -81,7 +81,7 @@ graph TD
 
 ---
 
-## 🛠️ Instalación y Desarrollo Local
+## Instalación y Desarrollo Local
 
 ### 1. Clonar el repositorio
 ```bash
@@ -98,28 +98,28 @@ npm install
 ```bash
 npm run dev
 ```
-*Abre tu navegador en [http://localhost:5173](http://localhost:5173) para ver la interfaz interactiva.*
+*Abre tu navegador en http://localhost:5173 para ver la interfaz interactiva.*
 
 ### 4. Compilar para producción
 ```bash
 npm run build
 ```
-*El compilado optimizado se generará en la carpeta `dist/`.*
+*El compilado optimizado se generará en la carpeta dist/.*
 
 ---
 
-## ☁️ Despliegue en Vercel
+## Despliegue en Vercel
 
 Este proyecto está optimizado para ser desplegado en **Vercel** de manera directa en pocos pasos:
 
 ### Opción A: Integración Continua (Recomendada)
-1. Ve al panel de control de [Vercel](https://vercel.com).
+1. Ve al panel de control de Vercel (https://vercel.com).
 2. Haz clic en **New Project** y selecciona el repositorio de GitHub de este proyecto.
 3. Asegúrate de configurar los siguientes parámetros de compilación (Vercel los detecta automáticamente al identificar Vite):
-   * **Framework Preset:** `Vite`
-   * **Build Command:** `npm run build`
-   * **Output Directory:** `dist`
-4. Haz clic en **Deploy**. Cada vez que hagas `push` a la rama `main`, Vercel actualizará tu sitio automáticamente.
+   * **Framework Preset:** Vite
+   * **Build Command:** npm run build
+   * **Output Directory:** dist
+4. Haz clic en **Deploy**. Cada vez que hagas push a la rama main, Vercel actualizará tu sitio automáticamente.
 
 ### Opción B: Despliegue desde la Consola (Vercel CLI)
 Si prefieres desplegar directamente desde tu terminal local:
@@ -131,4 +131,3 @@ npm install -g vercel
 vercel
 ```
 Sigue las instrucciones interactivas de la terminal para vincular y publicar tu portafolio en segundos.
-
