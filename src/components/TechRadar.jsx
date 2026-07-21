@@ -1,110 +1,160 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, Terminal, Disc, ShieldAlert, Sparkles, Layers } from 'lucide-react';
+import { Cpu, Terminal, Sparkles, Layers, Radio } from 'lucide-react';
 import { skills } from '../data/data';
 
-// Map icons to categories
-const CATEGORY_ICONS = {
-  Frontend: <Layers size={16} className="text-teal-400" />,
-  Backend: <Terminal size={16} className="text-primary-green" />,
-  Database: <Cpu size={16} className="text-blue-400" />,
-  Workflow: <Disc size={16} className="text-accent-amber" />,
-  Hardware: <ShieldAlert size={16} className="text-red-400" />
+const SKILL_DESCRIPTIONS = {
+  "React": "SPAs modulares de alto rendimiento con hooks personalizados y renderizado reactivo.",
+  "Python": "Microservicios robustos, automatizaciones asíncronas y APIs de alta disponibilidad.",
+  "PostgreSQL": "Modelado relacional, optimización de queries complejas y transacciones ACID.",
+  "Tailwind CSS": "Sistemas de diseño escalables e interfaces responsivas de producción.",
+  "Framer Motion": "Animaciones fluidas de alto rendimiento y transiciones complejas de layouts.",
+  "Arquitectura de Datos": "Modelos entidad-relación, normalización y tuberías de procesamiento.",
 };
 
-const SKILL_DESCRIPTIONS = {
-  "React": "Desarrollo de SPAs modulares de alto rendimiento utilizando patrones de estado avanzados, hooks personalizados y renderizado reactivo.",
-  "Python": "Construcción de microservicios robustos, automatizaciones de sistemas asíncronos y APIs de alta disponibilidad.",
-  "PostgreSQL": "Modelado de base de datos relacionales, optimización de queries complejas, transacciones ACID seguras e indexación de tablas.",
-  "Tailwind CSS": "Creación de sistemas de diseño escalables, interfaces responsivas a la medida y optimización de bundle CSS.",
-  "Framer Motion": "Orquestación de animaciones web fluidas de alto rendimiento y transiciones complejas de layouts interactivos.",
-  "Git / GitHub": "Control de versiones avanzado, flujos de trabajo colaborativos CI/CD, control de ramas y automatización de despliegues.",
-  "Optimización de Hardware": "Diagnóstico de rendimiento a bajo nivel, configuraciones personalizadas y ensamblaje enfocado a estaciones de desarrollo.",
-  "Asyncio (Python)": "Orquestación de tareas en segundo plano no bloqueantes, APIs asíncronas y scripts de telemetría y automatización masiva."
-};
+/* Animated Counter */
+function AnimatedCounter({ value, duration = 1.5 }) {
+  const [count, setCount] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  useEffect(() => {
+    setHasStarted(false);
+    setCount(0);
+    const timer = setTimeout(() => setHasStarted(true), 50);
+    return () => clearTimeout(timer);
+  }, [value]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+    let start = 0;
+    const end = parseInt(value);
+    const stepTime = (duration * 1000) / end;
+    const timer = setInterval(() => {
+      start++;
+      setCount(start);
+      if (start >= end) clearInterval(timer);
+    }, stepTime);
+    return () => clearInterval(timer);
+  }, [value, duration, hasStarted]);
+
+  return <span>{count}</span>;
+}
 
 export default function TechRadar() {
   const [selectedSkill, setSelectedSkill] = useState(skills[0]);
 
   return (
-    <section id="tech-radar" className="py-20 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Title */}
-        <div className="mb-12 space-y-2 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 text-xs font-mono text-primary-green">
-            <Cpu size={14} className="animate-spin text-primary-green" style={{ animationDuration: '6s' }} />
-            <span>[ RADAR_TECNOLOGICO_TELEMETRIA ]</span>
+    <section id="tech-radar" className="py-24 relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern pointer-events-none" />
+      <div className="absolute top-1/2 left-1/3 w-[450px] h-[450px] bg-primary-green/5 rounded-full blur-[160px] pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="mb-14 space-y-3"
+        >
+          <div className="inline-flex items-center gap-2 text-xs font-mono text-primary-green font-semibold">
+            <Radio size={15} className="animate-pulse text-accent-amber" />
+            <span>[ RADAR_TECNOLÓGICO ]</span>
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-white font-mono">
-            STACK DE HABILIDADES
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white font-heading">
+            Stack Técnico
           </h2>
-          <p className="text-slate-400 max-w-xl text-sm font-mono">
-            Mapeo interactivo de tecnologías dominantes y niveles de implementación de ingeniería.
+          <p className="text-slate-400 max-w-xl text-sm font-body">
+            Mapa interactivo de competencias con niveles de dominio y profundidad de implementación.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Command Center Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
-          {/* Column Left: Simulated Radar Screen (6 cols) */}
-          <div className="lg:col-span-7 glass-panel rounded-lg p-6 border border-primary-green/20 relative overflow-hidden flex flex-col items-center justify-center min-h-[400px]">
-            {/* Visual radar sweep animation */}
-            <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
-            
-            {/* Radial Radar Circles */}
-            <div className="relative w-80 h-80 rounded-full border border-primary-green/10 flex items-center justify-center">
-              {/* Outer Ring */}
-              <div className="absolute inset-0 rounded-full border border-primary-green/20" />
-              {/* Mid Ring */}
-              <div className="absolute w-56 h-56 rounded-full border border-primary-green/15" />
-              {/* Inner Ring */}
-              <div className="absolute w-32 h-32 rounded-full border border-primary-green/10" />
-              {/* Center Dot */}
-              <div className="absolute w-4 h-4 rounded-full bg-primary-green shadow-[0_0_10px_rgba(16,185,129,0.7)] z-20 flex items-center justify-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
-              </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-              {/* Scanning sweep beam */}
-              <motion.div
-                className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-transparent to-primary-green/10"
-                style={{ originX: 0.5, originY: 0.5 }}
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
-              />
+          {/* Left: Radar Visualization */}
+          <div className="lg:col-span-7 glass-panel rounded-2xl p-6 border border-primary-green/20 relative overflow-hidden flex flex-col items-center justify-center min-h-[480px] shadow-[0_0_60px_rgba(0,0,0,0.3)]">
+            <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
+
+            {/* Radar Container */}
+            <div className="relative w-[320px] h-[320px] sm:w-[360px] sm:h-[360px] rounded-full flex items-center justify-center">
+              {/* Concentric rings */}
+              <div className="absolute inset-0 rounded-full border border-primary-green/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]" />
+              <div className="absolute w-[270px] h-[270px] rounded-full border border-primary-green/25" />
+              <div className="absolute w-[180px] h-[180px] rounded-full border border-primary-green/20" />
+              <div className="absolute w-[90px] h-[90px] rounded-full border border-primary-green/15" />
 
               {/* Crosshairs */}
-              <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-primary-green/10" />
-              <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-primary-green/10" />
+              <div className="absolute top-0 bottom-0 left-1/2 w-px bg-gradient-to-b from-primary-green/40 via-primary-green/15 to-primary-green/40" />
+              <div className="absolute left-0 right-0 top-1/2 h-px bg-gradient-to-r from-primary-green/40 via-primary-green/15 to-primary-green/40" />
 
-              {/* Dynamic Skill nodes scattered radially */}
+              {/* Sonar Pulses */}
+              {[0, 2.5, 5].map((delay) => (
+                <motion.div
+                  key={delay}
+                  className="absolute rounded-full border border-primary-green/40 bg-transparent pointer-events-none"
+                  initial={{ width: '0px', height: '0px', opacity: 0.6 }}
+                  animate={{ width: '100%', height: '100%', opacity: 0 }}
+                  transition={{ repeat: Infinity, duration: 7.5, ease: "easeOut", delay }}
+                />
+              ))}
+
+              {/* Sweep Beam */}
+              <motion.div
+                className="absolute inset-0 rounded-full pointer-events-none"
+                style={{
+                  background: 'conic-gradient(from 0deg at 50% 50%, rgba(16,185,129,0.18) 0deg, rgba(16,185,129,0.03) 25deg, transparent 55deg, transparent 360deg)'
+                }}
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+              />
+
+              {/* Sweep Line */}
+              <motion.div
+                className="absolute top-0 left-1/2 w-px h-1/2 bg-gradient-to-t from-primary-green/80 via-emerald-400/60 to-transparent origin-bottom pointer-events-none z-20"
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+              />
+
+              {/* Center */}
+              <div className="absolute w-4 h-4 rounded-full bg-bg-dark border-2 border-primary-green shadow-[0_0_15px_rgba(16,185,129,0.5)] z-30 flex items-center justify-center">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary-green animate-pulse" />
+              </div>
+
+              {/* Skill Nodes */}
               {skills.map((skill, idx) => {
-                // Calculate angles/positions based on index to scatter them nicely
-                const angle = (idx * (360 / skills.length) * Math.PI) / 180;
-                // Radii vary from 60px to 140px based on level
-                const radius = 145 - (skill.level * 0.9); 
+                const angle = (idx * (360 / skills.length)) * Math.PI / 180;
+                const radius = 75 + ((idx % 3) * 30);
                 const x = Math.cos(angle) * radius;
                 const y = Math.sin(angle) * radius;
                 const isSelected = selectedSkill.name === skill.name;
+                const angleDeg = idx * (360 / skills.length);
+
+                let labelPos = "-top-7 left-1/2 -translate-x-1/2";
+                if (angleDeg >= 30 && angleDeg < 150) labelPos = "top-6 left-1/2 -translate-x-1/2";
+                else if (angleDeg >= 150 && angleDeg < 210) labelPos = "right-7 top-1/2 -translate-y-1/2";
+                else if (angleDeg >= 210 && angleDeg < 330) labelPos = "-top-7 left-1/2 -translate-x-1/2";
+                else labelPos = "left-7 top-1/2 -translate-y-1/2";
 
                 return (
                   <motion.button
                     key={skill.name}
-                    className={`absolute w-4 h-4 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 z-10 ${
-                      isSelected 
-                        ? "bg-accent-amber border-2 border-white shadow-[0_0_15px_rgba(245,158,11,0.8)] scale-125" 
-                        : "bg-primary-green/40 hover:bg-accent-amber/60 hover:scale-110"
+                    className={`absolute w-4 h-4 rounded-full cursor-pointer transition-all duration-300 z-30 ${
+                      isSelected
+                        ? "bg-accent-amber border-2 border-white shadow-[0_0_20px_rgba(245,158,11,0.8)] scale-125"
+                        : "bg-primary-green/80 border border-emerald-300/50 shadow-[0_0_8px_rgba(16,185,129,0.5)] hover:scale-125 hover:bg-accent-amber"
                     }`}
                     style={{
                       left: `calc(50% + ${x}px - 8px)`,
                       top: `calc(50% + ${y}px - 8px)`
                     }}
                     onClick={() => setSelectedSkill(skill)}
-                    whileHover={{ scale: 1.2 }}
+                    whileHover={{ scale: 1.3 }}
                   >
-                    <span className={`absolute -top-6 text-[9px] font-mono whitespace-nowrap px-1 rounded border bg-slate-950/80 ${
-                      isSelected 
-                        ? "border-accent-amber text-accent-amber" 
-                        : "border-primary-green/20 text-slate-400"
+                    <span className={`absolute ${labelPos} text-[10px] font-mono whitespace-nowrap px-2 py-0.5 rounded-md border font-bold shadow-md transition-all ${
+                      isSelected
+                        ? "border-accent-amber text-accent-amber bg-slate-950 shadow-[0_0_10px_rgba(245,158,11,0.3)] z-40"
+                        : "border-primary-green/30 text-slate-300 bg-slate-950/90"
                     }`}>
                       {skill.name}
                     </span>
@@ -113,24 +163,23 @@ export default function TechRadar() {
               })}
             </div>
 
-            {/* Radar status footer bar */}
-            <div className="w-full mt-6 border-t border-primary-green/15 pt-4 flex justify-between items-center text-xs font-mono text-slate-500">
-              <div className="flex items-center gap-1.5">
+            {/* Footer status */}
+            <div className="w-full mt-6 border-t border-primary-green/15 pt-4 flex flex-wrap justify-between items-center text-xs font-mono text-slate-400 gap-2">
+              <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-primary-green animate-pulse" />
-                <span>FRECUENCIA: 2.4GHZ</span>
+                <span className="text-primary-green font-semibold">SONAR: 360°</span>
               </div>
-              <div>MODO: ANALIZADOR_ACTIVO</div>
-              <div>SENSORES: [8/8]</div>
+              <div className="text-accent-amber font-semibold">NODOS: [{skills.length}] ONLINE</div>
             </div>
           </div>
 
-          {/* Column Right: Details & Telemetry (5 cols) */}
+          {/* Right: Skill Details */}
           <div className="lg:col-span-5 flex flex-col gap-4">
-            
-            {/* Quick Skill Selector Grid (for accessibility/easy navigation) */}
-            <div className="glass-panel rounded-lg p-4 border border-primary-green/25">
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-2">
-                [ INDEXADORES_DE_SISTEMA ]
+
+            {/* Selector Grid */}
+            <div className="glass-panel rounded-2xl p-5 border border-primary-green/20">
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-3 font-bold">
+                [ SELECCIONAR_TECNOLOGÍA ]
               </span>
               <div className="grid grid-cols-2 gap-2">
                 {skills.map((skill) => {
@@ -139,83 +188,68 @@ export default function TechRadar() {
                     <button
                       key={skill.name}
                       onClick={() => setSelectedSkill(skill)}
-                      className={`flex items-center gap-2 p-2 rounded text-left text-xs font-mono border transition-all ${
-                        isSelected 
-                          ? "bg-accent-amber/10 border-accent-amber text-accent-amber shadow-[0_0_10px_rgba(245,158,11,0.05)]" 
-                          : "bg-slate-900/60 border-primary-green/10 text-slate-300 hover:border-primary-green/30"
+                      className={`p-3 rounded-xl text-left text-xs font-mono border transition-all duration-300 cursor-pointer ${
+                        isSelected
+                          ? "bg-accent-amber/10 border-accent-amber text-accent-amber font-bold shadow-[0_0_15px_rgba(245,158,11,0.1)]"
+                          : "bg-slate-950/40 border-primary-green/15 text-slate-300 hover:border-primary-green/40 hover:text-white"
                       }`}
                     >
-                      {CATEGORY_ICONS[skill.category]}
-                      <span className="truncate">{skill.name}</span>
+                      {skill.name}
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* Telemetry Details Display */}
-            <div className="glass-panel rounded-lg p-6 border border-primary-green/25 flex-1 relative flex flex-col justify-between">
+            {/* Details Card */}
+            <div className="glass-panel rounded-2xl p-6 border border-primary-green/20 flex-1 flex flex-col justify-between shadow-[0_0_60px_rgba(0,0,0,0.3)]">
               <div className="space-y-4">
-                {/* Header info */}
                 <div className="flex justify-between items-start border-b border-primary-green/15 pb-4">
                   <div>
-                    <span className="text-[10px] font-mono text-primary-green uppercase tracking-wider block">
-                      SECTOR // {selectedSkill.category}
+                    <span className="text-[10px] font-mono text-primary-green uppercase tracking-wider block font-bold">
+                      {selectedSkill.category}
                     </span>
-                    <h3 className="text-xl font-bold text-white font-mono mt-0.5">
+                    <h3 className="text-2xl font-bold text-white font-heading mt-1">
                       {selectedSkill.name}
                     </h3>
                   </div>
-                  <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-slate-950/80 border border-primary-green/20 font-mono text-xs text-primary-green">
-                    <Sparkles size={12} className="text-accent-amber" />
-                    <span>NIVEL: {selectedSkill.level}%</span>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-accent-amber/30 font-mono text-xs text-accent-amber font-bold">
+                    <Sparkles size={13} />
+                    <span><AnimatedCounter value={selectedSkill.level} />%</span>
                   </div>
                 </div>
 
-                {/* Description */}
-                <div className="space-y-2">
-                  <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                    [ DESCRIPCIÓN_OPERATIVA ]
-                  </span>
-                  <p className="text-slate-300 text-sm leading-relaxed font-mono">
-                    {SKILL_DESCRIPTIONS[selectedSkill.name] || "Configuración y desarrollo enfocado a altos requerimientos."}
-                  </p>
-                </div>
+                <p className="text-slate-300 text-sm leading-relaxed font-body">
+                  {SKILL_DESCRIPTIONS[selectedSkill.name] || "Configuración avanzada enfocada a altos requerimientos."}
+                </p>
               </div>
 
-              {/* Progress bar HUD */}
-              <div className="mt-8 pt-4 border-t border-primary-green/15 space-y-3 font-mono">
-                <div>
-                  <div className="flex justify-between text-xs text-slate-400 mb-1">
-                    <span>CAPACIDAD_DOMINIO</span>
-                    <span className="text-accent-amber">{selectedSkill.level} / 100</span>
-                  </div>
-                  <div className="w-full bg-slate-950 h-2 rounded border border-primary-green/20 overflow-hidden">
-                    <motion.div 
-                      className="h-full bg-accent-amber"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${selectedSkill.level}%` }}
-                      key={selectedSkill.name}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
-                    />
-                  </div>
+              {/* Progress Bar */}
+              <div className="mt-6 pt-4 border-t border-primary-green/15 space-y-3">
+                <div className="flex justify-between text-xs font-mono text-slate-300 font-semibold">
+                  <span>DOMINIO</span>
+                  <span className="text-accent-amber">{selectedSkill.level}/100</span>
                 </div>
-                
-                {/* Status log terminal mock */}
-                <div className="bg-slate-950/70 p-2.5 rounded border border-primary-green/10 text-[10px] text-slate-400 space-y-1">
-                  <div>STATUS: ONLINE_TELEMETRY</div>
-                  <div>LAST_USE: ACCESO_RECIENTE_PROYECTOS</div>
-                  <div className="text-primary-green flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary-green animate-ping" />
-                    <span>CARGA EFECTUADA SATISFACTORIAMENTE</span>
+                <div className="w-full bg-slate-900 h-2.5 rounded-full border border-primary-green/20 overflow-hidden p-0.5">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-primary-green via-teal-400 to-accent-amber rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${selectedSkill.level}%` }}
+                    key={selectedSkill.name}
+                    transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
+                  />
+                </div>
+
+                <div className="bg-slate-950/80 p-3 rounded-lg border border-primary-green/15 text-[10px] text-slate-400 font-mono space-y-1">
+                  <div className="text-slate-500 font-bold">// TELEMETRÍA</div>
+                  <div className="text-primary-green font-semibold flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary-green animate-pulse" />
+                    NODO VERIFICADO [ONLINE]
                   </div>
                 </div>
               </div>
-
             </div>
-
           </div>
-
         </div>
       </div>
     </section>
